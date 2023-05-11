@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <center>
+        <img src="https://fpaw.aero/sites/default/files/iStock-184857129-home-crop_3.jpg" width='1300' height="200">
+        <head>
+            <title>Weather Report</title>
+        </head>
+    
+        <hr><h1 style="color: blue;font-size: 200%; background-color: azure;">Local Weather Forcast</h1></hr>
+        <hr><p1 style="font-size: 130%;">Enter your City or Locality</p1></hr> <br><br>
+
+        <form action="WeatherSearch" method="GET">
+            {% csrf_token %}
+            <input type="text" style="font-size: x-large" name="flocation">
+            <input type="submit" style="font-size: x-large;color=green;" value="Search">
+        </form>
+        
+        <br>
+<div>
+        <table style="width:40%; font-size: 140%;">
+            <tr>
+                <td>Location</td>
+                <td>{{loc_}}</td>
+            </tr>
+            <tr>
+                <td>Time</td>
+                <td>{{time_}}</td>
+            </tr>
+            <tr>
+                <td>Info</td>
+                <td>{{info_}}</td>
+            </tr>
+            <tr>
+                <td>Temperature</td>
+                <td>{{temp_}}°C</td>
+            </tr>
+            <tr>
+                <td>Humidity</td>
+                <td>{{hum_}}</td>
+            </tr>
+        </div>
+    </center>
+</html>
