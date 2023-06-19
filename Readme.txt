@@ -1,4 +1,4 @@
-##Django Weather App with Beautiful Soup 4
+##Django Weather App with OWM API
 
 This is a weather application built with pyowm weather api access module. The app allows users to get the current weather conditions for any location in India they search for. 
 
