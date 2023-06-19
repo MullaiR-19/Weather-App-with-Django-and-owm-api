@@ -1,8 +1,8 @@
 ##Django Weather App with Beautiful Soup 4
 
-This is a weather application built with Django web framework and Beautiful Soup 4 (bs4) module. The app allows users to get the current weather conditions for any location they search for. 
+This is a weather application built with pyowm weather api access module. The app allows users to get the current weather conditions for any location in India they search for. 
 
-The app uses the default google search and web scrapping using bs4 module which filters certain values from the search result.
+The app uses the default API provided and get the weather info of the place
 
 The front-end of the application is built using HTML and allows users to input a location in a search bar and display the current weather conditions for that location. 
 
