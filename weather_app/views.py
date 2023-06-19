@@ -1,7 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from bs4 import BeautifulSoup
-import requests
+import pyowm
+from datetime import datetime as dt
+
+apiKey= 'b7446f6af77392d0695d0989baf220de'
+owmConnect = pyowm.OWM(apiKey)
+weatherManager = owmConnect.weather_manager()
+
+time = dt.now()
+time = time.strftime("%H:%M:%S")
 
 #def home(request):
  #  return render(request, 'weather_front_end.html')
@@ -12,17 +19,22 @@ def WeatherSearch(request):
         city = request.GET['flocation']
     except:
         city = 'chennai'
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-    city = city+"+weather"
-    res = requests.get(f'https://www.google.com/search?q={city}&oq={city}&aqs=chrome.0.35i39l2j0l4j46j69i60.6128j1j7&sourceid=chrome&ie=UTF-8',headers=headers)
-    try:
-        soup = BeautifulSoup(res.text,'html.parser')   
-        location = soup.select('#oFNiHe')[0].getText().strip()
-        time = soup.select('#wob_dts')[0].getText().strip()       
-        info = soup.select('#wob_dc')[0].getText().strip() 
-        weather = soup.select('#wob_tm')[0].getText().strip()
-        humidity = soup.select('#wob_hm')[0].getText().strip()
+    place = city+', IN'
+    try: 
+        weatherData = weatherManager.weather_at_place(place)
+        data = weatherData.weather
+        location = place.title()
+        time = dt.now()
+    
+        temperature = weatherData.weather.temperature("celsius")["temp"]
+        humidity = weatherData.weather.humidity
+        time = time.strftime("%H:%M:%S")
+        info = data.detailed_status
+        return render(request, 'weather_front_end.html',{'loc_':location, 'time_':time, 'info_':info, 'temp_':temperature, 'hum_':humidity})
     except:
-        update = "City or Place not Found" 
-
-    return render(request, 'weather_front_end.html',{'loc_':location, 'time_':time, 'info_':info, 'temp_':weather, 'hum_':humidity})
+        location= "City or Place not Found" 
+        time=None
+        info=None
+        humidity=None
+        temperature = None
+        return render(request, 'weather_front_end.html',{'loc_':location, 'time_':time, 'info_':info, 'temp_':temperature, 'hum_':humidity})
